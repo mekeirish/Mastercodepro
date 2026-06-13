@@ -1,15 +1,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Mastercode — PWA Factory</title>
     
-    <!-- Polices modernes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <!-- Tailwind via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,63 +32,47 @@
                         'mono': ['JetBrains Mono', 'monospace'],
                     },
                     boxShadow: {
-                        'neu-dark': 'inset 0 1px 0 rgba(255,255,255,0.05), 0 4px 20px rgba(0,0,0,0.6)',
-                        'neu-pressed': 'inset 0 2px 4px rgba(0,0,0,0.6), inset 0 -1px 0 rgba(255,255,255,0.03)',
-                        'glow-violet': '0 0 15px rgba(139, 92, 246, 0.3), 0 0 30px rgba(139, 92, 246, 0.1)',
-                        'glow-amber': '0 0 12px rgba(245, 158, 11, 0.4), 0 0 24px rgba(245, 158, 11, 0.15)',
+                        'neu-dark': 'inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 10px rgba(0,0,0,0.5)',
+                        'neu-pressed': 'inset 0 1px 3px rgba(0,0,0,0.6)',
+                        'glow-violet': '0 0 12px rgba(139, 92, 246, 0.25), 0 0 20px rgba(139, 92, 246, 0.08)',
+                        'glow-amber': '0 0 10px rgba(245, 158, 11, 0.35), 0 0 18px rgba(245, 158, 11, 0.1)',
                     },
+                    fontSize: {
+                        '2xs': '0.65rem',
+                    }
                 }
             }
         }
     </script>
     
     <style>
-        /* Styles complémentaires pour les animations et le neumorphisme avancé */
         body {
             background: radial-gradient(ellipse at 50% 0%, #121218 0%, #0b0b0d 70%);
             letter-spacing: -0.01em;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior: none;
         }
         
-        /* Barre de défilement stylée */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f0f11;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272a;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3f3f46;
-        }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: #0f0f11; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 2px; }
         
-        /* Effet d'enfoncement mécanique au clic */
         .btn-press {
             transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
         }
         .btn-press:active {
-            transform: scale(0.98);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), inset 0 -1px 0 rgba(255,255,255,0.03);
+            transform: scale(0.97);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
         }
         
-        /* Animation de pulsation pour les LEDs */
         @keyframes pulse-amber {
-            0% { 
-                transform: scale(0.95); 
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); 
-            }
-            70% { 
-                transform: scale(1.15); 
-                box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); 
-            }
-            100% { 
-                transform: scale(0.95); 
-                box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); 
-            }
+            0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+            100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
         }
         
         @keyframes spin {
@@ -106,19 +88,35 @@
             animation: spin 0.8s linear infinite;
         }
         
-        /* Toast animation */
         .toast-enter {
-            top: 24px;
+            top: 12px;
             opacity: 1;
         }
         .toast-exit {
-            top: -120px;
+            top: -100px;
             opacity: 0;
         }
         
-        /* Mode focus pour les inputs */
         input:focus, textarea:focus {
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 0 2px rgba(139, 92, 246, 0.3), 0 4px 20px rgba(0,0,0,0.6);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 0 0 1.5px rgba(139, 92, 246, 0.25), 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        /* Optimisation espacements smartphone */
+        .card-compact {
+            padding: 14px 15px;
+        }
+        
+        .input-compact {
+            padding: 10px 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* Safe area pour les notch */
+        .safe-top {
+            padding-top: env(safe-area-inset-top, 8px);
+        }
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom, 8px);
         }
     </style>
 
@@ -127,129 +125,124 @@
     <link rel="apple-touch-icon" href="icon.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4b6cb7">
-<link rel="apple-touch-icon" href="icon.png"></head>
-<body class="font-sans text-zinc-100 antialiased min-h-screen flex flex-col items-center p-4 md:p-6">
+</head>
+<body class="font-sans text-zinc-100 antialiased min-h-screen flex flex-col items-center safe-top">
 
     <!-- Toast Notification -->
     <div id="toast" class="fixed -top-32 left-1/2 -translate-x-1/2 z-[1000] 
                 bg-deep-600/95 backdrop-blur-md border border-emerald-500/30 
-                text-emerald-400 font-semibold px-8 py-4 rounded-2xl 
-                shadow-[0_8px_32px_rgba(0,0,0,0.8)] transition-all duration-500 ease-out
-                flex items-center gap-3 text-sm">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                text-emerald-400 font-semibold px-5 py-2.5 rounded-full text-xs
+                shadow-[0_4px_16px_rgba(0,0,0,0.7)] transition-all duration-400 ease-out
+                flex items-center gap-2 whitespace-nowrap">
+        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
         <span id="toastMsg">✅ Action Réussie</span>
     </div>
 
-    <!-- Conteneur Principal -->
-    <div class="w-full max-w-[540px] pb-16 relative">
+    <!-- Conteneur Principal - Optimisé pour smartphone -->
+    <div class="w-full max-w-[420px] px-3 safe-bottom pb-4">
 
-        <!-- En-tête -->
-        <div class="flex items-center justify-between mb-8">
-            <h1 class="text-2xl font-bold tracking-[0.2em] text-white uppercase flex items-center gap-3">
-                <span class="w-2 h-2 bg-cyber-violet rounded-full shadow-glow-violet animate-pulse"></span>
+        <!-- En-tête Compact -->
+        <div class="flex items-center justify-between mb-3 px-1">
+            <h1 class="text-lg font-bold tracking-[0.15em] text-white uppercase flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-cyber-violet rounded-full shadow-glow-violet"></span>
                 Mastercode
             </h1>
             <button onclick="openSwModal()" 
-                    class="btn-press px-5 py-2.5 bg-deep-600 border border-zinc-800/60 rounded-xl 
+                    class="btn-press px-3 py-1.5 bg-deep-600 border border-zinc-800/60 rounded-lg 
                            text-zinc-400 hover:text-cyber-amber transition-colors duration-200
-                           shadow-neu-dark flex items-center gap-2 text-sm font-medium"
+                           shadow-neu-dark flex items-center gap-1.5 text-2xs font-medium"
                     title="Script personnalisé (SW)">
-                <span class="text-lg">🧠</span>
-                <span class="hidden sm:inline">SW Script</span>
+                <span>🧠</span>
+                <span class="hidden xs:inline">SW</span>
             </button>
         </div>
 
-        <!-- Carte : Configuration GitHub -->
-        <div class="bg-deep-600/80 backdrop-blur-sm border border-zinc-800/60 rounded-2xl p-6 mb-5 shadow-neu-dark">
-            <label class="block text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500 mb-3 ml-1">
-                GitHub Access Token
+        <!-- Carte 1 : Token GitHub - Ultra Compact -->
+        <div class="bg-deep-600/80 backdrop-blur-sm border border-zinc-800/60 rounded-xl card-compact mb-2.5 shadow-neu-dark">
+            <label class="block text-2xs font-semibold uppercase tracking-[0.08em] text-zinc-500 mb-1.5 ml-0.5">
+                Token GitHub
             </label>
-            <div class="flex gap-2.5">
+            <div class="flex gap-1.5">
                 <div class="relative flex-1">
                     <input type="password" id="ghToken" placeholder="ghp_..." oninput="saveKey('ghToken', this.value)"
-                           class="w-full bg-deep-700 border border-zinc-800/40 rounded-xl px-4 py-3.5 
-                                  text-zinc-100 placeholder-zinc-600 font-mono text-sm
-                                  shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] 
+                           class="w-full bg-deep-700 border border-zinc-800/40 rounded-lg input-compact
+                                  text-zinc-100 placeholder-zinc-600 font-mono text-xs
+                                  shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] 
                                   focus:outline-none focus:border-cyber-violet/50 transition-all duration-200">
                 </div>
-                <button class="btn-press px-4 py-3.5 bg-deep-500 border border-zinc-800/40 rounded-xl 
-                               text-cyber-violet font-semibold text-xs uppercase tracking-wider
+                <button class="btn-press px-2.5 py-2 bg-deep-500 border border-zinc-800/40 rounded-lg 
+                               text-cyber-violet font-semibold text-2xs uppercase tracking-wider
                                shadow-neu-dark hover:text-white hover:bg-cyber-violet/10 transition-all duration-200"
                         onclick="toggleView('ghToken')">
-                    VOIR
+                    👁
                 </button>
-                <button class="btn-press px-4 py-3.5 bg-deep-500 border border-zinc-800/40 rounded-xl 
-                               text-cyber-violet font-semibold text-xs uppercase tracking-wider
+                <button class="btn-press px-2.5 py-2 bg-deep-500 border border-zinc-800/40 rounded-lg 
+                               text-cyber-violet font-semibold text-2xs uppercase tracking-wider
                                shadow-neu-dark hover:text-white hover:bg-cyber-violet/10 transition-all duration-200"
                         onclick="pasteToken()">
-                    COLLER
+                    📋
                 </button>
             </div>
-            <button onclick="clearAllData()" 
-                    class="btn-press w-full mt-4 py-2.5 text-xs text-zinc-600 hover:text-red-400 
-                           transition-colors duration-200 font-medium tracking-wide">
-                🗑️ EFFACER LES CLÉS
-            </button>
         </div>
 
-        <!-- Carte : Projet & Source -->
-        <div class="bg-deep-600/80 backdrop-blur-sm border border-zinc-800/60 rounded-2xl p-6 mb-5 shadow-neu-dark">
+        <!-- Carte 2 : Projet & Source - Compact -->
+        <div class="bg-deep-600/80 backdrop-blur-sm border border-zinc-800/60 rounded-xl card-compact mb-2.5 shadow-neu-dark">
             
             <!-- Nom du Projet -->
-            <label class="block text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500 mb-3 ml-1">
+            <label class="block text-2xs font-semibold uppercase tracking-[0.08em] text-zinc-500 mb-1.5 ml-0.5">
                 Nom du Projet
             </label>
-            <input type="text" id="appName" placeholder="ex: master-factory"
-                   class="w-full bg-deep-700 border border-zinc-800/40 rounded-xl px-4 py-3.5 
-                          text-zinc-100 placeholder-zinc-600 text-sm
-                          shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] 
-                          focus:outline-none focus:border-cyber-violet/50 transition-all duration-200 mb-5">
+            <input type="text" id="appName" placeholder="mon-app"
+                   class="w-full bg-deep-700 border border-zinc-800/40 rounded-lg input-compact
+                          text-zinc-100 placeholder-zinc-600 text-xs mb-3
+                          shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] 
+                          focus:outline-none focus:border-cyber-violet/50 transition-all duration-200">
 
             <!-- Code HTML Source -->
-            <label class="block text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500 mb-3 ml-1">
-                Code HTML Source
+            <label class="block text-2xs font-semibold uppercase tracking-[0.08em] text-zinc-500 mb-1.5 ml-0.5">
+                HTML Source
             </label>
-            <textarea id="htmlInput" rows="8" placeholder="Colle le code ici..."
-                      class="w-full bg-deep-700 border border-zinc-800/40 rounded-xl px-4 py-3.5 
-                             text-zinc-100 placeholder-zinc-600 font-mono text-sm leading-relaxed
-                             shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] resize-none
-                             focus:outline-none focus:border-cyber-violet/50 transition-all duration-200 mb-5"></textarea>
+            <textarea id="htmlInput" rows="4" placeholder="Colle ton code ici..."
+                      class="w-full bg-deep-700 border border-zinc-800/40 rounded-lg input-compact
+                             text-zinc-100 placeholder-zinc-600 font-mono text-xs leading-relaxed mb-3
+                             shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] resize-none
+                             focus:outline-none focus:border-cyber-violet/50 transition-all duration-200"></textarea>
 
             <!-- Icône PWA -->
-            <label class="block text-xs font-semibold uppercase tracking-[0.1em] text-zinc-500 mb-3 ml-1">
-                Icône PWA <span class="text-zinc-700 font-normal">(Tous formats)</span>
+            <label class="block text-2xs font-semibold uppercase tracking-[0.08em] text-zinc-500 mb-1.5 ml-0.5">
+                Icône <span class="text-zinc-700 font-normal text-[0.6rem]">(512×512)</span>
             </label>
-            <div class="flex items-start gap-4">
-                <label class="btn-press flex-1 flex items-center justify-center gap-2 px-4 py-4 
-                              bg-deep-500 border border-dashed border-zinc-700/60 rounded-xl 
+            <div class="flex items-center gap-3">
+                <label class="btn-press flex-1 flex items-center justify-center gap-1.5 py-2.5 
+                              bg-deep-500 border border-dashed border-zinc-700/60 rounded-lg 
                               text-zinc-500 hover:text-zinc-400 hover:border-zinc-600 
-                              cursor-pointer transition-all duration-200 text-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              cursor-pointer transition-all duration-200 text-2xs font-medium">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
-                    <span class="font-medium">Choisir un fichier</span>
+                    <span>Choisir</span>
                     <input type="file" id="iconInput" accept="image/*" onchange="previewIcon(this)" class="hidden">
                 </label>
-                <img id="iconPreview" class="w-16 h-16 rounded-2xl border-2 border-zinc-800/60 object-cover 
-                                             shadow-[0_4px_12px_rgba(0,0,0,0.4)] hidden bg-deep-700"
-                     alt="Preview">
+                <div class="w-10 h-10 rounded-lg border border-zinc-800/60 bg-deep-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    <img id="iconPreview" class="w-full h-full object-cover hidden" alt="Icon">
+                    <svg id="iconPlaceholder" class="w-4 h-4 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
             </div>
         </div>
 
-        <!-- Bouton Principal : Forger -->
+        <!-- Bouton Principal : Forger - Point focal -->
         <button onclick="generatePWA()" id="mainBtn"
-                class="btn-press w-full py-5 bg-cyber-violet hover:bg-cyber-violet-hover 
-                       text-white font-bold text-lg uppercase tracking-[0.15em] rounded-2xl 
-                       shadow-glow-violet hover:shadow-[0_0_25px_rgba(139,92,246,0.5)] 
-                       transition-all duration-200 flex items-center justify-center gap-3 mb-4
+                class="btn-press w-full py-3 bg-cyber-violet hover:bg-cyber-violet-hover 
+                       text-white font-bold text-sm uppercase tracking-[0.12em] rounded-xl 
+                       shadow-glow-violet hover:shadow-[0_0_18px_rgba(139,92,246,0.4)] 
+                       transition-all duration-200 flex items-center justify-center gap-2 mb-2
                        disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none">
-            <div class="animate-spin-slow w-5 h-5 border-2 border-white/20 border-t-white rounded-full hidden" id="loader"></div>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="animate-spin-slow w-4 h-4 border-2 border-white/20 border-t-white rounded-full hidden" id="loader"></div>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
             <span>Forger l'Application</span>
@@ -257,11 +250,11 @@
 
         <!-- Bouton Secondaire : Injection PWA -->
         <button onclick="injectPwaToGitHub()" id="injectBtn"
-                class="btn-press w-full py-4 bg-deep-500 border border-zinc-800/60 rounded-2xl
-                       text-zinc-300 hover:text-white font-semibold text-sm uppercase tracking-[0.1em]
-                       shadow-neu-dark hover:border-cyber-violet/40 transition-all duration-200 mb-4
-                       flex items-center justify-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="btn-press w-full py-2.5 bg-deep-500 border border-zinc-800/60 rounded-xl
+                       text-zinc-300 hover:text-white font-semibold text-2xs uppercase tracking-[0.08em]
+                       shadow-neu-dark hover:border-cyber-violet/40 transition-all duration-200 mb-2
+                       flex items-center justify-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
             </svg>
             <span>Yes, WE Can.</span>
@@ -269,70 +262,70 @@
 
         <!-- Bouton Live -->
         <button id="liveBtn" onclick="openLiveSite()"
-                class="btn-press w-full py-4 bg-transparent border-2 border-cyber-amber/50 rounded-2xl
-                       text-cyber-amber font-bold text-sm uppercase tracking-[0.15em]
-                       hover:bg-cyber-amber/5 hover:border-cyber-amber/80 transition-all duration-300 mb-5
-                       hidden items-center justify-center gap-4">
-            <div class="flex gap-2">
-                <div class="w-2.5 h-2.5 rounded-full bg-zinc-700 transition-all duration-300" id="led1"></div>
-                <div class="w-2.5 h-2.5 rounded-full bg-zinc-700 transition-all duration-300" id="led2"></div>
+                class="btn-press w-full py-2.5 bg-transparent border border-cyber-amber/40 rounded-xl
+                       text-cyber-amber font-bold text-2xs uppercase tracking-[0.12em]
+                       hover:bg-cyber-amber/5 hover:border-cyber-amber/70 transition-all duration-300 mb-2
+                       hidden items-center justify-center gap-3">
+            <div class="flex gap-1.5">
+                <div class="w-2 h-2 rounded-full bg-zinc-700 transition-all duration-300" id="led1"></div>
+                <div class="w-2 h-2 rounded-full bg-zinc-700 transition-all duration-300" id="led2"></div>
             </div>
             <span>Voir le Site Live</span>
         </button>
 
-        <!-- Zone de Statut -->
-        <div id="status" class="hidden bg-deep-700/90 border border-zinc-800/60 rounded-2xl p-5 
-                    text-zinc-400 font-mono text-xs leading-relaxed 
-                    shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] mb-4
-                    whitespace-pre-wrap max-h-64 overflow-y-auto"></div>
+        <!-- Zone de Statut - Compacte -->
+        <div id="status" class="hidden bg-deep-700/90 border border-zinc-800/60 rounded-xl p-3 
+                    text-zinc-400 font-mono text-[0.6rem] leading-relaxed 
+                    shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)] mb-2
+                    whitespace-pre-wrap max-h-24 overflow-y-auto"></div>
         
         <button onclick="copyReport()" id="copyBtn"
-                class="btn-press w-full py-3 text-xs text-zinc-600 hover:text-cyber-amber 
+                class="btn-press w-full py-2 text-2xs text-zinc-600 hover:text-cyber-amber 
                        transition-colors duration-200 font-medium tracking-wide hidden
-                       border border-zinc-800/40 rounded-xl">
-            📋 COPIER LE RAPPORT
+                       border border-zinc-800/40 rounded-lg">
+            📋 Copier le Rapport
         </button>
 
-        <!-- Signature -->
-        <div class="mt-12 text-center">
-            <p class="text-xs text-zinc-800 tracking-[0.15em] font-medium">
-                Made by Laiche Brahim <span class="text-zinc-700">2026</span> Paris
+        <!-- Signature Discrète -->
+        <div class="mt-4 text-center">
+            <p class="text-[0.6rem] text-zinc-800 tracking-[0.1em] font-medium">
+                LD Holding <span class="text-zinc-700">·</span> Paris 2026
             </p>
         </div>
     </div>
 
-    <!-- MODALE SW (Script Personnalisé) -->
-    <div id="sw-overlay" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-[10000] transition-opacity duration-300"></div>
-    <div id="sw-modal" class="hidden fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                bg-deep-600 border-2 border-cyber-amber/40 rounded-2xl p-6 z-[10001] 
-                w-[92%] max-w-[700px] shadow-[0_0_40px_rgba(0,0,0,0.9)]">
-        <div class="flex items-center gap-3 mb-4">
-            <span class="text-2xl">🧠</span>
-            <h3 class="text-lg font-bold text-cyber-amber tracking-wide">Script Personnalisé</h3>
+    <!-- MODALE SW (Script Personnalisé) - Optimisée mobile -->
+    <div id="sw-overlay" class="hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-[10000] transition-opacity duration-200"></div>
+    <div id="sw-modal" class="hidden fixed inset-x-3 top-4 bottom-4
+                bg-deep-600 border border-cyber-amber/30 rounded-2xl p-4 z-[10001] 
+                shadow-[0_0_30px_rgba(0,0,0,0.9)] flex flex-col">
+        <div class="flex items-center gap-2 mb-3 flex-shrink-0">
+            <span class="text-xl">🧠</span>
+            <h3 class="text-sm font-bold text-cyber-amber tracking-wide">Script Personnalisé</h3>
         </div>
-        <p class="text-xs text-zinc-500 mb-4 leading-relaxed">
-            Ce code sera injecté à la fin du <code class="text-cyber-violet/70 bg-deep-700 px-1.5 py-0.5 rounded">&lt;/body&gt;</code>. 
-            Il peut surcharger les fonctions existantes ou ajouter des fonctionnalités (notifications push, etc.).
+        <p class="text-[0.6rem] text-zinc-500 mb-3 leading-relaxed flex-shrink-0">
+            Injecté avant <code class="text-cyber-violet/70 bg-deep-700 px-1 py-0.5 rounded text-[0.55rem]">&lt;/body&gt;</code>. 
+            Surcharge ou ajout de fonctionnalités.
         </p>
         <textarea id="customScript" placeholder="// Collez votre code JS ici..."
-                  class="w-full h-80 bg-deep-700 border border-zinc-700/40 rounded-xl p-4 
-                         text-zinc-100 font-mono text-sm leading-relaxed resize-none
-                         shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]
-                         focus:outline-none focus:border-cyber-amber/50 transition-all duration-200"></textarea>
-        <div class="flex justify-end gap-3 mt-5">
+                  class="flex-1 w-full bg-deep-700 border border-zinc-700/40 rounded-xl p-3 
+                         text-zinc-100 font-mono text-xs leading-relaxed resize-none
+                         shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)]
+                         focus:outline-none focus:border-cyber-amber/50 transition-all duration-200 min-h-0"></textarea>
+        <div class="flex justify-end gap-2 mt-3 flex-shrink-0">
             <button onclick="resetCustomScript()" 
-                    class="btn-press px-6 py-2.5 bg-transparent border border-red-500/30 rounded-xl 
-                           text-red-400 font-semibold text-sm hover:bg-red-500/10 transition-all duration-200">
-                🗑️ Réinitialiser
+                    class="btn-press px-3 py-2 bg-transparent border border-red-500/20 rounded-lg 
+                           text-red-400 font-semibold text-2xs hover:bg-red-500/10 transition-all duration-200">
+                🗑️
             </button>
             <button onclick="saveCustomScript()" 
-                    class="btn-press px-6 py-2.5 bg-cyber-violet rounded-xl text-white font-semibold text-sm
+                    class="btn-press px-4 py-2 bg-cyber-violet rounded-lg text-white font-semibold text-2xs
                            shadow-glow-violet hover:bg-cyber-violet-hover transition-all duration-200">
-                💾 Sauvegarder
+                💾 Sauver
             </button>
             <button onclick="closeSwModal()" 
-                    class="btn-press px-6 py-2.5 bg-deep-500 border border-zinc-700/40 rounded-xl 
-                           text-zinc-400 font-semibold text-sm hover:text-white transition-all duration-200">
+                    class="btn-press px-4 py-2 bg-deep-500 border border-zinc-700/40 rounded-lg 
+                           text-zinc-400 font-semibold text-2xs hover:text-white transition-all duration-200">
                 Fermer
             </button>
         </div>
@@ -359,7 +352,7 @@
         function saveCustomScript() {
             const script = document.getElementById('customScript').value;
             localStorage.setItem(CUSTOM_SCRIPT_KEY, script);
-            showToast("✅ Script personnalisé sauvegardé !");
+            showToast("✅ Script sauvegardé !");
             closeSwModal();
         }
 
@@ -367,14 +360,14 @@
             if (confirm("Supprimer définitivement votre script personnalisé ?")) {
                 localStorage.removeItem(CUSTOM_SCRIPT_KEY);
                 document.getElementById('customScript').value = '';
-                showToast("Script personnalisé réinitialisé.");
+                showToast("Script réinitialisé.");
                 closeSwModal();
             }
         }
 
         function openSwModal() {
             loadCustomScriptFromStorage();
-            document.getElementById('sw-modal').style.display = 'block';
+            document.getElementById('sw-modal').style.display = 'flex';
             document.getElementById('sw-overlay').style.display = 'block';
         }
 
@@ -398,7 +391,7 @@
                 return;
             }
             if (!sourceHtml) {
-                showToast("❌ Code HTML source vide. Collez d'abord votre HTML dans le champ prévu.", true);
+                showToast("❌ Code HTML source vide", true);
                 return;
             }
 
@@ -411,7 +404,7 @@
                 const userData = await userRes.json();
                 owner = userData.login;
             } catch (err) {
-                showToast("❌ Impossible de vérifier le token GitHub", true);
+                showToast("❌ Impossible de vérifier le token", true);
                 return;
             }
 
@@ -431,8 +424,8 @@
             liveOwner = owner;
             liveRepo = repo;
             liveBtn.style.display = 'flex';
-            led1.className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
-            led2.className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+            led1.className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+            led2.className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
             let checkInterval = null;
 
             try {
@@ -479,9 +472,7 @@
                 if (doc.body) {
                     doc.body.insertAdjacentHTML('beforeend', swScript);
                 } else {
-                    doc.documentElement.insertAdjacentHTML('beforeend', '<body>' + swScript + '
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
-</body>');
+                    doc.documentElement.insertAdjacentHTML('beforeend', '<body>' + swScript + '</body>');
                 }
 
                 let updatedHtml = doc.documentElement.outerHTML;
@@ -522,16 +513,16 @@
                     try {
                         const testResp = await fetch(siteUrl, { method: 'HEAD', mode: 'no-cors' });
                         clearInterval(checkInterval);
-                        led1.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
-                        led2.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
+                        led1.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
+                        led2.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
                         updateStatus("✅ Site prêt et accessible !", false);
                         showToast("🌍 Site disponible !");
                     } catch (err) {
                         if (attempts >= maxAttempts) {
                             clearInterval(checkInterval);
-                            led1.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
-                            led2.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
-                            updateStatus("⚠️ Délai d'attente dépassé, mais le site devrait bientôt être disponible.", false);
+                            led1.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
+                            led2.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
+                            updateStatus("⚠️ Délai d'attente dépassé.", false);
                         }
                     }
                 }, 3000);
@@ -540,8 +531,8 @@
                 console.error(err);
                 updateStatus(`❌ Erreur : ${err.message}`, false);
                 showToast(`❌ Échec : ${err.message}`, true);
-                led1.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]';
-                led2.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]';
+                led1.className = 'w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]';
+                led2.className = 'w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]';
                 if (checkInterval) clearInterval(checkInterval);
             }
         }
@@ -559,10 +550,10 @@
             const btn = event.target;
             if (el.type === "password") { 
                 el.type = "text"; 
-                btn.innerText = "CACHER"; 
+                btn.innerText = "🙈"; 
             } else { 
                 el.type = "password"; 
-                btn.innerText = "VOIR"; 
+                btn.innerText = "👁"; 
             }
         }
 
@@ -584,11 +575,11 @@
             tMsg.innerText = msg;
             
             if (isError) {
-                t.className = t.className.replace(/border-emerald-500\/30/g, 'border-red-500/30');
-                t.className = t.className.replace(/text-emerald-400/g, 'text-red-400');
+                t.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                t.style.color = '#f87171';
             } else {
-                t.className = t.className.replace(/border-red-500\/30/g, 'border-emerald-500/30');
-                t.className = t.className.replace(/text-red-400/g, 'text-emerald-400');
+                t.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                t.style.color = '#34d399';
             }
             
             t.classList.add('toast-enter');
@@ -597,7 +588,7 @@
             setTimeout(() => { 
                 t.classList.add('toast-exit');
                 t.classList.remove('toast-enter');
-            }, 3500);
+            }, 3000);
         }
 
         function clearAllData() {
@@ -633,8 +624,10 @@
                         base64Icon = dataUrl.split(',')[1];
                         
                         const preview = document.getElementById('iconPreview');
+                        const placeholder = document.getElementById('iconPlaceholder');
                         preview.src = dataUrl;
                         preview.style.display = 'block';
+                        if (placeholder) placeholder.style.display = 'none';
                     }
                     img.src = e.target.result;
                 }
@@ -670,19 +663,19 @@
                     const l1 = document.getElementById('led1');
                     const l2 = document.getElementById('led2');
                     
-                    l1.className = 'w-2.5 h-2.5 rounded-full bg-zinc-700';
-                    l2.className = 'w-2.5 h-2.5 rounded-full bg-zinc-700';
+                    l1.className = 'w-2 h-2 rounded-full bg-zinc-700';
+                    l2.className = 'w-2 h-2 rounded-full bg-zinc-700';
 
                     if (run.status === 'in_progress' || run.status === 'queued') {
-                        l1.className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
-                        l2.className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+                        l1.className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+                        l2.className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
                     } else if (run.status === 'completed') {
                         if (run.conclusion === 'success') {
-                            l1.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
-                            l2.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]';
+                            l1.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
+                            l2.className = 'w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]';
                         } else {
-                            l1.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]';
-                            l2.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]';
+                            l1.className = 'w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]';
+                            l2.className = 'w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]';
                         }
                     }
                 }
@@ -812,8 +805,8 @@
                 liveOwner = owner;
                 liveRepo = appName;
                 
-                document.getElementById('led1').className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
-                document.getElementById('led2').className = 'w-2.5 h-2.5 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+                document.getElementById('led1').className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
+                document.getElementById('led2').className = 'w-2 h-2 rounded-full bg-cyber-amber shadow-glow-amber animate-pulse-amber';
                 document.getElementById('liveBtn').style.display = 'flex';
                 
                 checkDeploymentStatus();
@@ -828,7 +821,6 @@
         }
     </script>
 
-    <!-- Service Workers en doublon (conservés tels quels pour la logique métier) -->
     <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
     <script>
       if ('serviceWorker' in navigator) {
